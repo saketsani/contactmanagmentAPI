@@ -1,3 +1,4 @@
+using contactmanagmentAPI.Middleware;
 using contactmanagmentAPI.Models;
 using contactmanagmentAPI.Repositories;
 
@@ -10,11 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
 // Add configuration
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.Configure<Data>(builder.Configuration.GetSection("Data"));
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 var app = builder.Build();
+
+app.UseMiddleware<Errorhandling>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

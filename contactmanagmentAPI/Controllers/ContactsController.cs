@@ -2,6 +2,7 @@
 using contactmanagmentAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace contactmanagmentAPI.Controllers
 {
@@ -17,21 +18,27 @@ namespace contactmanagmentAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllContacts() =>
-            Ok(await _repository.GetAllContactsAsync());
+        public async Task<IActionResult> GetAllContacts()
+        {
+            var contacts = await _repository.GetAllContactsAsync();
+            return Ok(contacts);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetContact(int id)
         {
             var contact = await _repository.GetContactByIdAsync(id);
-            return contact == null ? NotFound() : Ok(contact);
+            if (contact == null)
+                throw new KeyNotFoundException("Contact not found.");
+
+            return Ok(contact);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddContact([FromBody] Contact contact)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!TryValidateModel(contact))
+                throw new ValidationException("Invalid input.");
 
             await _repository.AddContactAsync(contact);
             return CreatedAtAction(nameof(GetContact), new { id = contact.Id }, contact);
@@ -41,10 +48,10 @@ namespace contactmanagmentAPI.Controllers
         public async Task<IActionResult> UpdateContact(int id, [FromBody] Contact contact)
         {
             if (id != contact.Id)
-                return BadRequest("ID mismatch.");
+                throw new ArgumentException("ID mismatch.");
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!TryValidateModel(contact))
+                throw new ValidationException("Invalid input.");
 
             await _repository.UpdateContactAsync(contact);
             return NoContent();
@@ -53,6 +60,10 @@ namespace contactmanagmentAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContact(int id)
         {
+            var contact = await _repository.GetContactByIdAsync(id);
+            if (contact == null)
+                throw new KeyNotFoundException("Contact not found.");
+
             await _repository.DeleteContactAsync(id);
             return NoContent();
         }

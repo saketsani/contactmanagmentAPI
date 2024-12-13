@@ -4,7 +4,7 @@ namespace contactmanagmentAPI.Models
 {
     public class Contact
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required(ErrorMessage = "First name is required.")]
         public string Firstname { get; set; }
