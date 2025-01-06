@@ -54,7 +54,8 @@ namespace contactmanagmentAPI.Controllers
                 throw new ValidationException("Invalid input.");
 
             await _repository.UpdateContactAsync(contact);
-            return NoContent();
+
+            return CreatedAtAction(nameof(GetContact), new { id = contact.Id }, contact);
         }
 
         [HttpDelete("{id}")]
