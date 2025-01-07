@@ -1,5 +1,5 @@
-﻿using contactmanagmentAPI.Models;
-using contactmanagmentAPI.Repositories;
+﻿using ContactManagement.Data.Models;
+using ContactManagement.Data.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;

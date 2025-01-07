@@ -1,6 +1,11 @@
-﻿using contactmanagmentAPI.Models;
+﻿using ContactManagement.Data.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace contactmanagmentAPI.Repositories
+namespace ContactManagement.Data.Repositories
 {
     public interface IContactRepository
     {

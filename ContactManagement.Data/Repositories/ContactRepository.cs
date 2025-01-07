@@ -1,8 +1,8 @@
-﻿using contactmanagmentAPI.Models;
+﻿using ContactManagement.Data.Models;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
-namespace contactmanagmentAPI.Repositories
+namespace ContactManagement.Data.Repositories
 {
     /// <summary>
     /// Repository class responsible for managing contacts data.
@@ -17,10 +17,13 @@ namespace contactmanagmentAPI.Repositories
         /// </summary>
         /// <param name="options">The configuration options containing the path to the contacts JSON file.</param>
         /// <exception cref="ArgumentException">Thrown if the JSON file path is not configured.</exception>
-        public ContactRepository(IOptions<Data> options)
+        public ContactRepository(IOptions<ContactData> options)
         {
-            _jsonFilePath = options.Value.ContactList
-                             ?? throw new ArgumentException("JSON file path not configured.");
+            if (options.Value.ContactList == null)
+            {
+                throw new ArgumentException("JSON file path not configured.");
+            }
+            _jsonFilePath = options.Value.ContactList;
         }
 
         /// <summary>

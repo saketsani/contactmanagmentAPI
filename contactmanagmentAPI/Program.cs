@@ -1,6 +1,6 @@
+using ContactManagement.Data.Models;
+using ContactManagement.Data.Repositories;
 using contactmanagmentAPI.Middleware;
-using contactmanagmentAPI.Models;
-using contactmanagmentAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +19,7 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 
 // Add configuration
 builder.Services.AddControllers().AddNewtonsoftJson();
-builder.Services.Configure<Data>(builder.Configuration.GetSection("Data"));
+builder.Services.Configure<ContactData>(builder.Configuration.GetSection("ContactData"));
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 var app = builder.Build();
 

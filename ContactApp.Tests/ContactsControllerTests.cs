@@ -1,6 +1,4 @@
 ﻿using contactmanagmentAPI.Controllers;
-using contactmanagmentAPI.Models;
-using contactmanagmentAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
@@ -9,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit;
+using ContactManagement.Data.Repositories;
+using ContactManagement.Data.Models;
 
 namespace ContactApp.Tests
 {
